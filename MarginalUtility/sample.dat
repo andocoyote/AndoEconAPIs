@@ -1,0 +1,5 @@
+{
+    "symbols": "c p",
+    "fx": "sqrt(p * c)",
+    "variable": "c"
+}
