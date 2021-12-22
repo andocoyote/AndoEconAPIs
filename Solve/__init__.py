@@ -1,4 +1,5 @@
 from ..Common import Calculations as calc
+import json
 import logging
 import sympy
 import azure.functions as func
@@ -31,6 +32,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         result = calc.Solve(symbols, fx, subs)
 
         if result:
+            result = json.dumps({'fx': str(fx), 'result': str(result)})
             return func.HttpResponse(str(result))
             status_code=200
         else:

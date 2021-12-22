@@ -1,9 +1,9 @@
 {
     "symbols": "p c",
-    "fx": "sqrt(p * c)",
+    "fx": "sqrt(c*p)/(2*c)",
     "subs":
     {
-        "x":2,
-        "y":5
+        "c":2,
+        "p":5
     }
 }

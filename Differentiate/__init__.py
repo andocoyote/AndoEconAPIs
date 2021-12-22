@@ -1,4 +1,5 @@
 from ..Common import Calculations as calc
+import json
 import logging
 import sympy
 import azure.functions as func
@@ -26,7 +27,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         derivative = calc.Differentiate(symbols, fx)
 
         if derivative:
-            return func.HttpResponse(str(derivative))
+            result = json.dumps({'fx': str(fx), 'derivative': str(derivative)})
+            return func.HttpResponse(str(result))
             status_code=200
         else:
             return func.HttpResponse('Error: failed to calculate derivative from symbols {0} and fx {1}'.format(symbols, fx))

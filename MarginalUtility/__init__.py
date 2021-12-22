@@ -1,4 +1,5 @@
 from ..Common import Calculations as calc
+import json
 import logging
 import sympy
 import azure.functions as func
@@ -30,7 +31,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         MU = calc.MarginalUtility(symbols, fx, variable)
 
         if MU:
-            return func.HttpResponse(str(MU))
+            result = json.dumps({'fx': str(fx), 'MarginalUtility': str(MU)})
+            return func.HttpResponse(str(result))
             status_code=200
         else:
             return func.HttpResponse('Error: failed to calculate Marginal Utility from symbols {0}, fx {1}, and variable {2}'
