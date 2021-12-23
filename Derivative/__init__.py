@@ -24,7 +24,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     
     if symbols and fx:
         # Differentiate it.  Should yield: 5*x**4 + 28*x**3
-        derivative = calc.Differentiate(symbols, fx)
+        derivative = calc.Derivative(symbols, fx)
 
         if derivative:
             result = json.dumps({'fx': str(fx), 'derivative': str(derivative)})

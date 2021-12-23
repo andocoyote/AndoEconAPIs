@@ -27,15 +27,15 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         pass
     
     if symbols and fx and variable:
-        # Calcule the Marginal Utility
-        MU = calc.MarginalUtility(symbols, fx, variable)
+        # Calcule the partial deriviatve
+        pd = calc.PartialDerivative(symbols, fx, variable)
 
-        if MU:
-            result = json.dumps({'fx': str(fx), 'MarginalUtility': str(MU)})
+        if pd:
+            result = json.dumps({'fx': str(fx), 'PartialDerivative': str(pd)})
             return func.HttpResponse(str(result))
             status_code=200
         else:
-            return func.HttpResponse('Error: failed to calculate Marginal Utility from symbols {0}, fx {1}, and variable {2}'
+            return func.HttpResponse('Error: failed to calculate the partial derivative from symbols {0}, fx {1}, and variable {2}'
             .format(symbols, fx, variable))
 
             status_code=400

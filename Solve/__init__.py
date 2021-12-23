@@ -42,7 +42,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             status_code=400
     else:
         return func.HttpResponse(
-             "This HTTP triggered function executed successfully. Supply symbols and fx.",
+             "This HTTP triggered function executed successfully. Supply symbols, fx, and subs.",
              status_code=200
         )
         
