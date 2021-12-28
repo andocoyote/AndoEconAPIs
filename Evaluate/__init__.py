@@ -15,33 +15,34 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     try:
         req_body = req.get_json()
 
-        # Example symbols = 'q'
+        # Example symbols = 'x y'
         symbols = req_body.get('symbols')
 
-        # Example: fx = '12 - 2/3*q'
+        # Example: fx = 'sqrt(x y)'
         fx = req_body.get('fx')
+
+        # Example: {'x':2, 'y':5}
+        subs = req_body.get('subs')
 
     except ValueError:
         pass
     
-    if symbols and fx:
-        # Solve the equation set to zero and obtain the result
-        result = calc.Solve(symbols, fx)
+    if symbols and fx and subs:
+        # Evalutate with the sub values the equation and obtain the result
+        result = calc.Evalutate(symbols, fx, subs)
 
         if result:
-            # The values in sympy sets are not native Python types and must be converted to float
-            resultlist = [float(num) for num in result]
-            result = json.dumps({'fx': str(fx), 'result': resultlist})
+            result = json.dumps({'fx': str(fx), 'result': float(result)})
             return func.HttpResponse(result)
             status_code=200
         else:
-            return func.HttpResponse('Error: failed to calculate result from symbols {0} and fx {1}'
-            .format(symbols, fx))
+            return func.HttpResponse('Error: failed to calculate result from symbols {0}, fx {1}, and subs {2}'
+            .format(symbols, fx, subs))
 
             status_code=400
     else:
         return func.HttpResponse(
-             "This HTTP triggered function executed successfully. Supply symbols and fx.",
+             "This HTTP triggered function executed successfully. Supply symbols, fx, and subs.",
              status_code=200
         )
         

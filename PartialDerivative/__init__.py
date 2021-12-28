@@ -32,7 +32,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
         if pd:
             result = json.dumps({'fx': str(fx), 'PartialDerivative': str(pd)})
-            return func.HttpResponse(str(result))
+            return func.HttpResponse(result)
             status_code=200
         else:
             return func.HttpResponse('Error: failed to calculate the partial derivative from symbols {0}, fx {1}, and variable {2}'

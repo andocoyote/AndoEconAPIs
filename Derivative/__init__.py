@@ -28,7 +28,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
         if derivative:
             result = json.dumps({'fx': str(fx), 'derivative': str(derivative)})
-            return func.HttpResponse(str(result))
+            return func.HttpResponse(result)
             status_code=200
         else:
             return func.HttpResponse('Error: failed to calculate derivative from symbols {0} and fx {1}'.format(symbols, fx))

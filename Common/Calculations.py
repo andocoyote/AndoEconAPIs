@@ -59,7 +59,7 @@ def PartialDerivative(symbols: str, fx: str, variable: str) -> str:
     return derivative
 
 
-def Solve(symbols: str, fx: str, subs: dict) -> float:
+def Evalutate(symbols: str, fx: str, subs: dict) -> float:
     symbols = ValidateSymbols(symbols)
     
     # Declare an equation that we want to differentiate
@@ -73,6 +73,21 @@ def Solve(symbols: str, fx: str, subs: dict) -> float:
     
     return result
     
+
+def Solve(symbols: str, fx: str) -> sympy.sets.sets.Set:
+    symbols = ValidateSymbols(symbols)
+
+    # Declare an equation that we want to differentiate
+    fx = ParseEquation(symbols, fx)
+
+    # Create the variables for symbols we'll be using from the symbols param
+    for symbol in symbols:
+        locals()[symbol] = sympy.Symbol(symbol)
+
+    result = sympy.solveset(fx, locals()[symbols[0]])
+
+    return result
+
 
 def main() -> int:
     # Power Rule
@@ -129,10 +144,10 @@ def main() -> int:
     # If c is 2 and p is 5:
     subs = {'c':2, 'p':5}
     
-    result = Solve('p c', MUp, subs)
+    result = Evalutate('p c', MUp, subs)
     print(result)
     
-    result = Solve('p c', MUc, subs)
+    result = Evalutate('p c', MUc, subs)
     print(result)
     
     return 0
