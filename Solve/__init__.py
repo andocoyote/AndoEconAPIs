@@ -10,7 +10,6 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     symbols = ''
     fx = ''
-    subs = {}
 
     try:
         req_body = req.get_json()
