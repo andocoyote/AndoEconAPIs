@@ -10,6 +10,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     symbols = ''
     fx = ''
+    cx = ''
 
     try:
         req_body = req.get_json()
@@ -19,18 +20,25 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
         # Example: fx = '10 - 0.001*x'
         fx = req_body.get('fx')
+
+        # Example: cx = '5000 + 2*x'
+        cx = req_body.get('cx')
     
-        if symbols and fx:
+        if symbols and fx and cx:
             demandFunction = fx
+            costFunction = cx
 
             # Revenue is quantity x * price p which is given by the demand function (price function)
             revenueFunction = symbols + ' * (' + demandFunction + ')'
 
-            # MR is the derivative of the revenue function
-            marginalRevenueFunction = calc.Derivative(symbols, revenueFunction)
+            # Profit is revenue minus cost
+            profitFunction = '(' + revenueFunction + ')' + '-(' + costFunction + ')'
+
+            # MP is the derivative of the profit function
+            marginalProfitFunction = calc.Derivative(symbols, profitFunction)
 
             # Solve the equation set to zero and obtain the result
-            optimumQuantitySet = calc.Solve(symbols, marginalRevenueFunction)
+            optimumQuantitySet = calc.Solve(symbols, marginalProfitFunction)
             optimumQuantity = [float(num) for num in optimumQuantitySet]
 
             # Evaluate the demand function using optimum quantity to obtain price per item
@@ -42,8 +50,10 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             # Format the response body JSON
             response = json.dumps(
                 {'demandFunction': str(demandFunction),
+                'costFunction': str(costFunction),
                 'revenueFunction': str(revenueFunction),
-                'marginalRevenueFunction': str(marginalRevenueFunction),
+                'profitFunction': str(profitFunction),
+                'marginalProfitFunction': str(marginalProfitFunction),
                 'optimumQuantity': float(optimumQuantity[0]),
                 'itemPrice': float(itemPrice),
                 'totalRevenue': float(totalRevenue)})
